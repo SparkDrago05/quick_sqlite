@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name='sqlite_easy',
     packages=['sqlite_easy'],
-    version='0.1',
+    version='1.0',
     license='MIT',
     description='This library can you help you use sqlite3 much easier and faster.',
     author='Spark Drago',
