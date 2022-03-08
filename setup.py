@@ -19,10 +19,7 @@ setup(
     url='https://github.com/SparkDrago05/sqlite_easy',
     download_url='https://github.com/SparkDrago05/sqlite_easy/archive/refs/tags/v1.0.tar.gz',
     keywords=['sqlite', 'sqlite3'],
-    install_requires=[
-        'validators',
-        'beautifulsoup4',
-    ],
+    install_requires=[],
     classifiers=[
         'Development Status :: 4 - Beta',
         # Define that your audience are developers
