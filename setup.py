@@ -1,7 +1,10 @@
-from distutils.core import setup
+import os
+from setuptools import setup
 
-with open('README.md') as f:
-    long_description = f.read()
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 setup(
     name='sqlite_easy',
@@ -9,12 +12,12 @@ setup(
     version='1.0',
     license='MIT',
     description='This library can you help you use sqlite3 much easier and faster.',
-    long_description=long_description,
+    long_description=read('README.md'),
     long_description_content_type='text/markdown',
     author='Spark Drago',
     author_email='huzaifa.farooq05@gmail.com',
     url='https://github.com/SparkDrago05/sqlite_easy',
-    download_url='https://github.com/SparkDrago05/sqlite_easy/archive/v_01.tar.gz',
+    download_url='https://github.com/SparkDrago05/sqlite_easy/archive/refs/tags/v1.0.tar.gz',
     keywords=['sqlite', 'sqlite3'],
     install_requires=[
         'validators',
