@@ -9,7 +9,7 @@ def read(fname):
 setup(
     name='sqlite_easy',
     packages=['sqlite_easy'],
-    version='1.0',
+    version='1.0.0',
     license='MIT',
     description='This library can you help you use sqlite3 much easier and faster.',
     long_description=read('README.md'),
