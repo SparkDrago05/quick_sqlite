@@ -1,0 +1,11 @@
+[1.1]
+This code was written and tested on Python 3.10.2
+
+# Added
+
+- Added Database Protection Feature which you can enable while creating instance of the QuickSqlite Class.
+
+[1.0]
+This code was written and tested on Python 3.10.2
+
+Initial Release.

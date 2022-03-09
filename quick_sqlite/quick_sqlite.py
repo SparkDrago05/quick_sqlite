@@ -1,20 +1,82 @@
 import sqlite3
+import os
+from cryptography.fernet import Fernet
 
 
 class QuickSqlite():
     """Class to use sqlite3."""
 
-    def __init__(self, db_name: str):
-        self.db_name = db_name
+    def __init__(self, db_path: str, protect: bool, key: str = None):
+        """
+        Initializes the QuickSqlite Class.
 
-    def connect(self):
+        Args:
+             db_path: The path to the database.
+        """
+        self.__db_path = db_path
+        self.__protect = protect
+        self.__database_encrypted = True
+        self.__key = key
+        if protect and self.__key is None:
+            raise ValueError(
+                "If Protect is True, you must provide a valid Fernet key.")
+
+    def __connect(self):
         global conn, cursor
-        conn = sqlite3.connect(self.db_name)
-        cursor = conn.cursor()
+        if self.__protect == False:
+            conn = sqlite3.connect(self.__db_path)
+            cursor = conn.cursor()
+        elif self.__protect == True:
+            if os.path.exists(self.__db_path) == False:
+                self.__database_encrypted = False
+            if self.__database_encrypted == False:
+                conn = sqlite3.connect(self.__db_path)
+                cursor = conn.cursor()
+                self._encrypt_database(self.__db_path, self.__key)
+                self.__database_encrypted = True
+            if self.__database_encrypted:
 
-    def close(self):
-        cursor.close()
-        conn.close()
+                self._decrypt_database(self.__db_path, self.__key)
+                conn = sqlite3.connect(self.__db_path)
+                cursor = conn.cursor()
+                self.__database_encrypted = False
+
+    def __close(self):
+        if self.__protect == False:
+            cursor.close()
+            conn.close()
+        elif self.__protect == True:
+            if self.__database_encrypted == False:
+                self._encrypt_database(self.__db_path, self.__key)
+                self.__database_encrypted = True
+
+    def _encrypt_database(self, filename, key):
+        """
+        Given a filename (str) and key (bytes), it encrypts the file and write it
+        """
+        f = Fernet(key)
+        with open(filename, "rb") as file:
+            # read all file data
+            file_data = file.read()
+            # encrypt data
+        encrypted_data = f.encrypt(file_data)
+        # write the encrypted file
+        with open(filename, "wb") as file:
+            file.write(encrypted_data)
+
+    def _decrypt_database(self, filename, key):
+        """
+        Given a filename (str) and key (bytes), it decrypts the file and write it
+        """
+        f = Fernet(key)
+        with open(filename, "rb") as file:
+            # read the encrypted data
+            encrypted_data = file.read()
+        # decrypt data
+        decrypted_data = f.decrypt(encrypted_data)
+        # write the original file
+        with open(filename, "wb") as file:
+            file.write(decrypted_data)
 
     def create_table(self, table_name: str, column_name: str):
         """
@@ -24,10 +86,10 @@ class QuickSqlite():
              table_name (str): The name of the table to create.
              column_name (str): The column(s) name of the table.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"CREATE TABLE IF NOT EXISTS {table_name} ({column_name})")
-        self.close()
+        self.__close()
 
     def check_table_exists(self, table_name: str, column_name: str) -> bool:
         """
@@ -37,7 +99,7 @@ class QuickSqlite():
              table_name (str): name of the table to check.
              column_name (str): The name of any column of the table.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"SELECT {column_name} from sqlite_master WHERE type = 'table' AND name = '{table_name}'")
         table = cursor.fetchone()
@@ -45,7 +107,7 @@ class QuickSqlite():
             return True
         elif table is None:
             return False
-        self.close()
+        self.__close()
 
     def delete_table(self, table_name: str):
         """
@@ -54,9 +116,9 @@ class QuickSqlite():
         Args:
              table_name (str): The name of the table to delete.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
-        self.close()
+        self.__close()
 
     def alter_table(self, table_name: str, column_function: str, data: str):
         """
@@ -67,10 +129,10 @@ class QuickSqlite():
              column: The column you want to alter.
              data: The data of the thing you want to alter.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"ALTER TABLE {table_name} {column_function} COLUMN {data}")
-        self.close()
+        self.__close()
 
     def insert_table(self, table_name: str, column_name: str, data: list[str]):
         """
@@ -92,11 +154,11 @@ class QuickSqlite():
             if not loop_count == data_count:
                 question_marks += ','
 
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"INSERT INTO {table_name} ({column_name}) VALUES ({question_marks})", (data_tuple))
         conn.commit()
-        self.close()
+        self.__close()
 
     def update_table(self, table_name: str, column_name: str, new_data: str, filter_column_name: str, filter_column_data: str):
         """
@@ -109,11 +171,11 @@ class QuickSqlite():
              filter_column_name (str): The name of a column to filter the row
              filter_column_data (str): The data of a column to filter the row.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"UPDATE {table_name} SET {column_name} = ? WHERE {filter_column_name} = ?", (new_data, filter_column_data))
         conn.commit()
-        self.close()
+        self.__close()
 
     def select_table(self, table_name: str) -> list[tuple]:
         """
@@ -122,10 +184,10 @@ class QuickSqlite():
         Args:
              table_name: The name of the table of which you want the data.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(f"SELECT * FROM {table_name}")
         result = cursor.fetchall()
-        self.close()
+        self.__close()
         return result
 
     def select_column(self, table_name: str, column_name: str) -> list[tuple]:
@@ -136,10 +198,10 @@ class QuickSqlite():
              table_name: The name of the table of which you want column.
              column_name: The name of the column of which you want data.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(f"SELECT {column_name} FROM {table_name}")
         result = cursor.fetchall()
-        self.close()
+        self.__close()
         return result
 
     def select_data(self, table_name: str, column_name: str, filter_column_name: str, filter_column_data: str):
@@ -152,11 +214,11 @@ class QuickSqlite():
              filter_column_name (str): The name of the column you want to be filtered through.
              filter_column_data (str): The data of the column you want to be filtered through.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"SELECT {column_name} FROM {table_name} WHERE {filter_column_name} = ?", (filter_column_data))
         result = cursor.fetchone()
-        self.close()
+        self.__close()
         return result
 
     def delete_data(self, table_name: str, column_name: str, data: str):
@@ -168,8 +230,8 @@ class QuickSqlite():
              column_name (str): The name of the column of which you want to delete the data.
              column_data (str): The data of the row to be deleted.
         """
-        self.connect()
+        self.__connect()
         cursor.execute(
             f"DELETE FROM {table_name} WHERE {column_name} = ?", (data))
         conn.commit()
-        self.close()
+        self.__close()

@@ -9,7 +9,7 @@ def read(fname):
 setup(
     name='quick_sqlite',
     packages=['quick_sqlite'],
-    version='1.0',
+    version='1.1',
     license='MIT',
     description='This library can you help you use sqlite3 much easier and faster.',
     long_description=read('README.md'),
@@ -17,9 +17,10 @@ setup(
     author='Spark Drago',
     author_email='huzaifa.farooq05@gmail.com',
     url='https://github.com/SparkDrago05/quick_sqlite',
-    download_url='https://github.com/SparkDrago05/sqlite_easy/archive/refs/tags/v1.0.tar.gz',
+    download_url='https://github.com/SparkDrago05/quick_sqlite/archive/refs/tags/v1.0.tar.gz',
     keywords=['sqlite', 'sqlite3', 'quick'],
-    install_requires=[],
+    install_requires=[
+        'cryptography'],
     classifiers=[
         'Development Status :: 4 - Beta',
         # Define that your audience are developers
@@ -28,4 +29,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
     ],
+    
 )
