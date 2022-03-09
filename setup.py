@@ -7,18 +7,18 @@ def read(fname):
 
 
 setup(
-    name='sqlite_easy',
-    packages=['sqlite_easy'],
-    version='1.0.0',
+    name='quick_sqlite',
+    packages=['quick_sqlite'],
+    version='1.0',
     license='MIT',
     description='This library can you help you use sqlite3 much easier and faster.',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     author='Spark Drago',
     author_email='huzaifa.farooq05@gmail.com',
-    url='https://github.com/SparkDrago05/sqlite_easy',
+    url='https://github.com/SparkDrago05/quick_sqlite',
     download_url='https://github.com/SparkDrago05/sqlite_easy/archive/refs/tags/v1.0.tar.gz',
-    keywords=['sqlite', 'sqlite3'],
+    keywords=['sqlite', 'sqlite3', 'quick'],
     install_requires=[],
     classifiers=[
         'Development Status :: 4 - Beta',

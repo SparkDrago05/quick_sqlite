@@ -1,17 +1,17 @@
-# sqlite_easy
+# quick_sqlite
 
 It is a fast package that will ease you to work with sqlite3.
 
 ## Installation
 
 ```
-pip install sqlite_easy
+pip install quick_sqlite
 ```
 
 ## Usage
 
 ```
-from sqlite_easy import SqliteEasy
-sqle = SqliteEasy('example')
+from quick_sqlite import QuickSqlite
+sqle = QuickSqlite('example')
 sqle.create_table('employes', 'name, email')
 ```
