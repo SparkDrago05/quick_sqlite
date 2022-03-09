@@ -17,7 +17,7 @@ setup(
     author='Spark Drago',
     author_email='huzaifa.farooq05@gmail.com',
     url='https://github.com/SparkDrago05/quick_sqlite',
-    download_url='https://github.com/SparkDrago05/quick_sqlite/archive/refs/tags/v1.0.tar.gz',
+    download_url='https://github.com/SparkDrago05/quick_sqlite/archive/refs/tags/v1.1.tar.gz',
     keywords=['sqlite', 'sqlite3', 'quick'],
     install_requires=[
         'cryptography'],
