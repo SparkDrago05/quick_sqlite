@@ -1,3 +1,10 @@
+[1.1.1]
+This code was written and tested on Python 3.10.2
+
+# Fix
+
+- Fixed the bug where you cannot access the library.
+
 [1.1]
 This code was written and tested on Python 3.10.2
 

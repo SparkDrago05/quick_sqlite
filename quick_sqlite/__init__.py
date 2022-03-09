@@ -1,1 +1,1 @@
-from quick_sqlite import QuickSqlite
+from .quick_sqlite import QuickSqlite
