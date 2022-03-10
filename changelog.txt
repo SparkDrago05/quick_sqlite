@@ -1,3 +1,10 @@
+[1.2]
+This code was written and tested on Python 3.10.2
+
+# Added
+
+- Now you can filter data from multiple columns by select_data() function. 
+
 [1.1.1]
 This code was written and tested on Python 3.10.2
 

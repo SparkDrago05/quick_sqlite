@@ -204,7 +204,7 @@ class QuickSqlite():
         self.__close()
         return result
 
-    def select_data(self, table_name: str, column_name: str, filter_column_name: str, filter_column_data: str):
+    def select_data(self, table_name: str, column_name: str, filter_column_name: str, filter_column_data: list[str]):
         """
         Returns a specified data from a specified column.
 
@@ -215,8 +215,16 @@ class QuickSqlite():
              filter_column_data (str): The data of the column you want to be filtered through.
         """
         self.__connect()
+        filter_column_name_array = filter_column_name.split()
+        edited_array = []
+        for filter_column_name_value in filter_column_name_array:
+            edited_array.append(filter_column_name_value + '=?')
+
+        edited_string = ' and '.join(edited_array).replace(',', '')
+        filter_data_tuple = tuple(filter_column_data)
+
         cursor.execute(
-            f"SELECT {column_name} FROM {table_name} WHERE {filter_column_name} = ?", (filter_column_data))
+            f"SELECT {column_name} FROM {table_name} WHERE {edited_string}", (filter_data_tuple))
         result = cursor.fetchone()
         self.__close()
         return result

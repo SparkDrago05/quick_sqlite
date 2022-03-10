@@ -11,7 +11,7 @@ pip install quick_sqlite
 ### Simple and Protected Database
 ```
 from quick_sqlite import QuickSqlite
-databse_path = './data/example'
+database_path = './data/example'
 key = b'7vEREn9p76PwgOYxBY-ManCwy_XuYGFxKY0XtMBTF_E='
 simple_database = QuickSqlite(database_path)
 protected_database = QuickSqlite(database_path, True, key)
