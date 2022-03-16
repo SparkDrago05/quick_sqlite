@@ -103,11 +103,11 @@ class QuickSqlite():
         cursor.execute(
             f"SELECT {column_name} from sqlite_master WHERE type = 'table' AND name = '{table_name}'")
         table = cursor.fetchone()
+        self.__close()
         if table:
             return True
         elif table is None:
             return False
-        self.__close()
 
     def delete_table(self, table_name: str):
         """
