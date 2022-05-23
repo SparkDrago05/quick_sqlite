@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; QuickSqlite 1.2.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Documentation" href="doc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuickSqlite
+          </a>
+              <div class="version">
+                1.2.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-database">Creating a database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-table">Creating a table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checking-for-a-table">Checking for a table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deleting-a-table">Deleting a table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#altering-a-table">Altering a table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inserting-data">Inserting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-table">Updating table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-table">Selecting table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-column">Selecting column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-data">Selecting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deleting-row">Deleting row</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuickSqlite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<span id="id1"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h1>
+<p>Here are examples of how to use the QuickSqlite module.</p>
+<section id="creating-a-database">
+<h2>Creating a database<a class="headerlink" href="#creating-a-database" title="Permalink to this headline"></a></h2>
+<p>Here’s how you can create a single simple database.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">quick_sqlite</span> <span class="kn">import</span> <span class="n">QuickSqlite</span>
+
+<span class="c1"># Create a new database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">QuickSqlite</span><span class="p">(</span><span class="s1">&#39;my_database.db&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also work with multiple databases.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">quick_sqlite</span> <span class="kn">import</span> <span class="n">QuickSqlite</span>
+
+<span class="c1"># Create a simple database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">QuickSqlite</span><span class="p">(</span><span class="s1">&#39;my_database.db&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="n">key</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;3kVCk6cXQqLX3HTFMg4XUvHVt7sG__-C25p4uAZvrIE=&#39;</span>
+<span class="c1"># Create an encrypted database</span>
+<span class="n">db2</span> <span class="o">=</span> <span class="n">QuickSqlite</span><span class="p">(</span><span class="s1">&#39;my_database2.db&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can generate a fernet key using <strong>cryptography</strong> module.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="kn">import</span> <span class="n">Fernet</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">key</span> <span class="o">=</span> <span class="n">Fernet</span><span class="o">.</span><span class="n">generate_key</span><span class="p">()</span>
+<span class="go">b&#39;3kVCk6cXQqLX3HTFMg4XUvHVt7sG__-C25p4uAZvrIE=&#39;</span>
+</pre></div>
+</div>
+<p>You can read more about Fernet <a href="https://cryptography.io/en/latest/fernet/" target="_blank">here</a>.</p>
+</section>
+<section id="creating-a-table">
+<h2>Creating a table<a class="headerlink" href="#creating-a-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here table name is ‘accounts’ and columns are ‘id’, ‘name’, ‘email’ and ‘password’.
+INT and VARCHAR are data types of columns.</p>
+</section>
+<section id="checking-for-a-table">
+<h2>Checking for a table<a class="headerlink" href="#checking-for-a-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>It returns True as we just recently created table accounts.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s1">&#39;customers&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>It returns False as there is no table customers in our database right now.</p>
+</section>
+<section id="deleting-a-table">
+<h2>Deleting a table<a class="headerlink" href="#deleting-a-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">delete_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will delete the table ‘accounts’ from our database.</p>
+</section>
+<section id="altering-a-table">
+<h2>Altering a table<a class="headerlink" href="#altering-a-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">alter_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;ADD&#39;</span><span class="p">,</span> <span class="s1">&#39;phone VARCHAR(255)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">alter_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;DROP&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">alter_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;MODIFY&#39;</span><span class="p">,</span> <span class="s1">&#39;phone INT&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ADD and DROP statements are used to add and drop columns from a table. The MODIFY statement is used to modify the data type of a column.</p>
+</section>
+<section id="inserting-data">
+<h2>Inserting data<a class="headerlink" href="#inserting-data" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">insert_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;id, name, email, password&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email@example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;123456789&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This will insert the data in the specified columns.</p>
+<p>Here the data (1, John Doe, <a class="reference external" href="mailto:email&#37;&#52;&#48;example&#46;com">email<span>&#64;</span>example<span>&#46;</span>com</a>, 123456789) will be inserted in the columns (id, name, email, password).</p>
+</section>
+<section id="updating-table">
+<h2>Updating table<a class="headerlink" href="#updating-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">update_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will update the value of name column to Dan where id is 1.</p>
+</section>
+<section id="selecting-table">
+<h2>Selecting table<a class="headerlink" href="#selecting-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="go">[(1, &#39;Dan&#39;, &#39;email@example.com&#39;, &#39;123456789&#39;), (2, &#39;Joe&#39;, &#39;email2@example.com&#39;, &#39;930232213&#39;), (3, &#39;Smith&#39;, &#39;email3@example.com&#39;, &#39;232131231&#39;)]</span>
+</pre></div>
+</div>
+<p>This will return all the entries of a table in a list containing tuple of each row.</p>
+</section>
+<section id="selecting-column">
+<h2>Selecting column<a class="headerlink" href="#selecting-column" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">column</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+<span class="go">[(&#39;Dan&#39;,), (&#39;Joe&#39;,), (&#39;Smith&#39;,)]</span>
+</pre></div>
+</div>
+<p>This will return all entries of a column of the table.</p>
+</section>
+<section id="selecting-data">
+<h2>Selecting data<a class="headerlink" href="#selecting-data" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">(&#39;123456789&#39;,)</span>
+</pre></div>
+</div>
+<p>This will return password of field where the name is Dan.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;id, name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">(&#39;123456789&#39;,)</span>
+</pre></div>
+</div>
+<p>This will return password of field where the id is 1 and name is Dan.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">row</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_row</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="go">(1, &#39;Dan&#39;, &#39;email@example.com&#39;, &#39;123456789&#39;)</span>
+</pre></div>
+</div>
+<p>* means ‘all’. This will return the row where name is Dan.</p>
+</section>
+<section id="deleting-row">
+<h2>Deleting row<a class="headerlink" href="#deleting-row" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">delete_row</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This will delete the row where name is Dan.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="doc.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Spark Drago.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
