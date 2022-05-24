@@ -1,0 +1,245 @@
+Results of doctest builder run on 2022-05-23 21:53:05
+=====================================================
+
+Document: examples
+------------------
+**********************************************************************
+File "examples.rst", line 40, in default
+Failed example:
+    key = Fernet.generate_key()
+Expected:
+    b'3kVCk6cXQqLX3HTFMg4XUvHVt7sG__-C25p4uAZvrIE='
+Got nothing
+**********************************************************************
+File "examples.rst", line 50, in default
+Failed example:
+    db.create_table('accounts', 'id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255)')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.create_table('accounts', 'id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255)')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 59, in default
+Failed example:
+    db.check_table_exists('accounts', 'password')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.check_table_exists('accounts', 'password')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 64, in default
+Failed example:
+    db.check_table_exists('customers', 'email')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.check_table_exists('customers', 'email')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 71, in default
+Failed example:
+    db.delete_table('accounts')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.delete_table('accounts')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 80, in default
+Failed example:
+    db.alter_table('accounts', 'ADD', 'phone VARCHAR(255)')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.alter_table('accounts', 'ADD', 'phone VARCHAR(255)')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 81, in default
+Failed example:
+    db.alter_table('accounts', 'DROP', 'email')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[1]>", line 1, in <module>
+        db.alter_table('accounts', 'DROP', 'email')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 82, in default
+Failed example:
+    db.alter_table('accounts', 'MODIFY', 'phone INT')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[2]>", line 1, in <module>
+        db.alter_table('accounts', 'MODIFY', 'phone INT')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 87, in default
+Failed example:
+    db.insert_table('accounts', 'id, name, email, password', [1, 'John Doe', 'email@example.com', '123456789'])
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.insert_table('accounts', 'id, name, email, password', [1, 'John Doe', 'email@example.com', '123456789'])
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 96, in default
+Failed example:
+    db.update_table('accounts', 'name', 'Dan', 'id', 1)
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.update_table('accounts', 'name', 'Dan', 'id', 1)
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 105, in default
+Failed example:
+    table = db.select_table('accounts')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        table = db.select_table('accounts')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 106, in default
+Failed example:
+    print(table)
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[1]>", line 1, in <module>
+        print(table)
+    NameError: name 'table' is not defined
+**********************************************************************
+File "examples.rst", line 114, in default
+Failed example:
+    column = db.select_column('accounts', 'name')
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        column = db.select_column('accounts', 'name')
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 115, in default
+Failed example:
+    print(column)
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[1]>", line 1, in <module>
+        print(column)
+    NameError: name 'column' is not defined
+**********************************************************************
+File "examples.rst", line 123, in default
+Failed example:
+    data = db.select_data('accounts', 'password', 'name', ['Dan'])
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        data = db.select_data('accounts', 'password', 'name', ['Dan'])
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 124, in default
+Failed example:
+    print(data)
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[1]>", line 1, in <module>
+        print(data)
+    NameError: name 'data' is not defined
+**********************************************************************
+File "examples.rst", line 129, in default
+Failed example:
+    data = db.select_data('accounts', 'password', 'id, name', [1, 'Dan'])
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        data = db.select_data('accounts', 'password', 'id, name', [1, 'Dan'])
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 130, in default
+Failed example:
+    print(data)
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[1]>", line 1, in <module>
+        print(data)
+    NameError: name 'data' is not defined
+**********************************************************************
+File "examples.rst", line 135, in default
+Failed example:
+    row = db.select_row('accounts', '*', 'name', ['Dan'])
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        row = db.select_row('accounts', '*', 'name', ['Dan'])
+    NameError: name 'db' is not defined
+**********************************************************************
+File "examples.rst", line 136, in default
+Failed example:
+    print(row)
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[1]>", line 1, in <module>
+        print(row)
+    NameError: name 'row' is not defined
+**********************************************************************
+File "examples.rst", line 142, in default
+Failed example:
+    db.delete_row('accounts', 'name', ['Dan'])
+Exception raised:
+    Traceback (most recent call last):
+      File "C:\Users\huzai\AppData\Local\Programs\Python\Python310\lib\doctest.py", line 1346, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest default[0]>", line 1, in <module>
+        db.delete_row('accounts', 'name', ['Dan'])
+    NameError: name 'db' is not defined
+**********************************************************************
+1 items had failures:
+  21 of  22 in default
+22 tests in 1 items.
+1 passed and 21 failed.
+***Test Failed*** 21 failures.
+
+Doctest summary
+===============
+   22 tests
+   21 failures in tests
+    0 failures in setup code
+    0 failures in cleanup code
