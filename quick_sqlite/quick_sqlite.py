@@ -136,8 +136,18 @@ class QuickSqlite():
             data (str): The data of the thing you want to alter.
         """
         self.__connect()
-        cursor.execute(
-            f"ALTER TABLE {table_name} {column_function} COLUMN {data}")
+
+        p = data.split(' ')
+
+        query = cursor.execute(
+            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{p[0]}'")
+        col_exist = query.fetchone()
+        col_exist = col_exist[0] > 0
+        if not col_exist:
+            cursor.execute(
+                f"ALTER TABLE {table_name} {column_function} COLUMN {data}")
+        else:
+            pass
         self.__close()
 
     def insert_table(self, table_name: str, column_name: str, data: list[str]):
@@ -211,6 +221,30 @@ class QuickSqlite():
         result = cursor.fetchall()
         self.__close()
         return result
+
+    def check_column_exists(self, table_name, column_name) -> bool:
+        """Checks if specified column exists in the specified table.
+
+        Args:
+            table_name (str): Name of the table to check.
+            column_name (str): The name of the column to check.
+
+        Returns:
+            bool: True if column exists, False otherwise.
+        """
+        self.__connect()
+
+        cursor.execute(
+            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column_name}'")
+        column = cursor.fetchone()
+        column_exist = column[0] > 0
+
+        if column_exist:
+            return True
+        elif not column_exist:
+            return False
+
+        self.__close()
 
     def select_data(self, table_name: str, column_name: str, filter_column_name: str, filter_column_data: list[str]) -> tuple[str]:
         """Returns a specified data from a specified column.

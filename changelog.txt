@@ -1,3 +1,15 @@
+[1.3]
+This code was written and tested on Python 3.10.2
+
+# Changes
+
+- Now if you use alter_table() the function will be excuted if column exists else it will not be executed
+
+# Added
+
+- Added function check_column_exists()
+
+
 [1.2.2]
 This code was written and tested on Python 3.10.2
 
@@ -5,7 +17,7 @@ This code was written and tested on Python 3.10.2
 
 - Fixed function delete_data()
 
-#Changes
+# Changes
 
 - Changed name of funtion delete_data() to delete_row()
 
