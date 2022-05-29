@@ -52,15 +52,25 @@ Creating a table
 Here table name is 'accounts' and columns are 'id', 'name', 'email' and 'password'.
 INT and VARCHAR are data types of columns.
 
+Renaming a table
+----------------
+
+>>> db.rename_table('accounts', 'users')
+>>> db.rename_table('users', 'accounts')
+
+First line will change name of the table 'accounts' to 'users'.
+Second line will change it back to 'accounts'
+
+
 Checking for a table
 --------------------
 
->>> db.check_table_exists('accounts', 'password')
+>>> db.check_table_exists('accounts')
 True
 
 It returns True as we just recently created table accounts.
 
->>> db.check_table_exists('customers', 'email')
+>>> db.check_table_exists('customers')
 False
 
 It returns False as there is no table customers in our database right now.
@@ -71,15 +81,6 @@ Deleting a table
 >>> db.delete_table('accounts')
 
 This will delete the table 'accounts' from our database.
-
-Altering a table
-----------------
-
->>> db.alter_table('accounts', 'ADD', 'phone VARCHAR(255)')
->>> db.alter_table('accounts', 'DROP', 'email')
->>> db.alter_table('accounts', 'MODIFY', 'phone INT')
-
-The ADD and DROP statements are used to add and drop columns from a table. The MODIFY statement is used to modify the data type of a column.
 
 Inserting data
 --------------
@@ -106,6 +107,27 @@ Selecting table
 
 This will return all the entries of a table in a list containing tuple of each row.
 
+Adding a column
+---------------
+
+>>> db.add_column('accounts', 'address', 'VARCHAR')
+
+This will create a new column 'address' with data type 'VARCHAR' in table 'accounts'.
+
+Renaming a column
+-----------------
+
+>>> db.rename_column('accounts', 'address', 'home address')
+
+This will rename column 'address' to 'home address' in table 'accounts'.
+
+Deleting a column
+-----------------
+
+>>> db.delete_column('accounts', 'home address')
+
+This will delete column 'home address' in table 'accounts'.
+
 Selecting column
 ----------------
 
@@ -114,6 +136,16 @@ Selecting column
 [('Dan',), ('Joe',), ('Smith',)]
 
 This will return all entries of a column of the table.
+
+Checking for a column
+---------------------
+
+>>> db,check_column_exists('accounts', 'name')
+True
+>>> db,check_column_exists('accounts', 'address')
+False
+
+This will check if a column exists in the table.
 
 Selecting data
 --------------

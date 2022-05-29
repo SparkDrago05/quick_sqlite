@@ -45,13 +45,17 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-database">Creating a database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-table">Creating a table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#renaming-a-table">Renaming a table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#checking-for-a-table">Checking for a table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deleting-a-table">Deleting a table</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#altering-a-table">Altering a table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#inserting-data">Inserting data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#updating-table">Updating table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#selecting-table">Selecting table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-column">Adding a column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#renaming-a-column">Renaming a column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deleting-a-column">Deleting a column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#selecting-column">Selecting column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checking-for-a-column">Checking for a column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#selecting-data">Selecting data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deleting-row">Deleting row</a></li>
 </ul>
@@ -121,14 +125,23 @@
 <p>Here table name is ‘accounts’ and columns are ‘id’, ‘name’, ‘email’ and ‘password’.
 INT and VARCHAR are data types of columns.</p>
 </section>
+<section id="renaming-a-table">
+<h2>Renaming a table<a class="headerlink" href="#renaming-a-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">rename_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;users&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">rename_table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="s1">&#39;accounts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First line will change name of the table ‘accounts’ to ‘users’.
+Second line will change it back to ‘accounts’</p>
+</section>
 <section id="checking-for-a-table">
 <h2>Checking for a table<a class="headerlink" href="#checking-for-a-table" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
 </div>
 <p>It returns True as we just recently created table accounts.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s1">&#39;customers&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s1">&#39;customers&#39;</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
 </div>
@@ -140,15 +153,6 @@ INT and VARCHAR are data types of columns.</p>
 </pre></div>
 </div>
 <p>This will delete the table ‘accounts’ from our database.</p>
-</section>
-<section id="altering-a-table">
-<h2>Altering a table<a class="headerlink" href="#altering-a-table" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">alter_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;ADD&#39;</span><span class="p">,</span> <span class="s1">&#39;phone VARCHAR(255)&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">alter_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;DROP&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">alter_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;MODIFY&#39;</span><span class="p">,</span> <span class="s1">&#39;phone INT&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The ADD and DROP statements are used to add and drop columns from a table. The MODIFY statement is used to modify the data type of a column.</p>
 </section>
 <section id="inserting-data">
 <h2>Inserting data<a class="headerlink" href="#inserting-data" title="Permalink to this headline"></a></h2>
@@ -174,6 +178,27 @@ INT and VARCHAR are data types of columns.</p>
 </div>
 <p>This will return all the entries of a table in a list containing tuple of each row.</p>
 </section>
+<section id="adding-a-column">
+<h2>Adding a column<a class="headerlink" href="#adding-a-column" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;VARCHAR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create a new column ‘address’ with data type ‘VARCHAR’ in table ‘accounts’.</p>
+</section>
+<section id="renaming-a-column">
+<h2>Renaming a column<a class="headerlink" href="#renaming-a-column" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;home address&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will rename column ‘address’ to ‘home address’ in table ‘accounts’.</p>
+</section>
+<section id="deleting-a-column">
+<h2>Deleting a column<a class="headerlink" href="#deleting-a-column" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">delete_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;home address&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will delete column ‘home address’ in table ‘accounts’.</p>
+</section>
 <section id="selecting-column">
 <h2>Selecting column<a class="headerlink" href="#selecting-column" title="Permalink to this headline"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">column</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
@@ -182,6 +207,16 @@ INT and VARCHAR are data types of columns.</p>
 </pre></div>
 </div>
 <p>This will return all entries of a column of the table.</p>
+</section>
+<section id="checking-for-a-column">
+<h2>Checking for a column<a class="headerlink" href="#checking-for-a-column" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="p">,</span><span class="n">check_column_exists</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="p">,</span><span class="n">check_column_exists</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>This will check if a column exists in the table.</p>
 </section>
 <section id="selecting-data">
 <h2>Selecting data<a class="headerlink" href="#selecting-data" title="Permalink to this headline"></a></h2>
