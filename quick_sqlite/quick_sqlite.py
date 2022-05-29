@@ -97,19 +97,33 @@ class QuickSqlite():
             f"CREATE TABLE IF NOT EXISTS {table_name} ({column_name})")
         self.__close()
 
-    def check_table_exists(self, table_name: str, column_name: str) -> bool:
+    def rename_table(self, old_table_name: str, new_table_name: str):
+        """Renames the specified table.
+
+        Args:
+            table_name (str): The name of the table to rename.
+            old_table_name (str): The old name of the table.
+            new_table_name (str): The new name of the table.
+        """
+        table_exists = self.check_table_exists(old_table_name)
+        self.__connect()
+        if table_exists:
+            cursor.execute(
+                f"ALTER TABLE {old_table_name} RENAME TO {new_table_name}")
+        self.__close()
+
+    def check_table_exists(self, table_name: str) -> bool:
         """Checks if specified table exists in the database.
 
         Args:
             table_name (str): Name of the table to check.
-            column_name (str): The name of any column of the table.
 
         Returns:
             bool: True if table exists, False otherwise.
         """
         self.__connect()
         cursor.execute(
-            f"SELECT {column_name} from sqlite_master WHERE type = 'table' AND name = '{table_name}'")
+            f"SELECT name from sqlite_master WHERE type = 'table' AND name = '{table_name}'")
         table = cursor.fetchone()
         self.__close()
         if table:
@@ -125,29 +139,6 @@ class QuickSqlite():
         """
         self.__connect()
         cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
-        self.__close()
-
-    def alter_table(self, table_name: str, column_function: str, data: str):
-        """Alters the specified thing of the specified table.
-
-        Args:
-            table_name (str): The name of the table to alter.
-            column_function (str): The function you want to perform on the column.
-            data (str): The data of the thing you want to alter.
-        """
-        self.__connect()
-
-        p = data.split(' ')
-
-        query = cursor.execute(
-            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{p[0]}'")
-        col_exist = query.fetchone()
-        col_exist = col_exist[0] > 0
-        if not col_exist:
-            cursor.execute(
-                f"ALTER TABLE {table_name} {column_function} COLUMN {data}")
-        else:
-            pass
         self.__close()
 
     def insert_table(self, table_name: str, column_name: str, data: list[str]):
@@ -205,6 +196,59 @@ class QuickSqlite():
         result = cursor.fetchall()
         self.__close()
         return result
+
+    def add_column(self, table_name: str, column_name: str, column_data_type: str):
+        """Adds a column to the specified table.
+
+        Args:
+            table_name (str): The name of the table to add the column to.
+            column_name (str): The name of the column to add.
+            column_data_type (str): The data type of the column.
+        """
+        self.__connect()
+        query = cursor.execute(
+            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column_name}'")
+        column_exist = query.fetchone()
+        column_exist = column_exist[0] > 0
+        if not column_exist:
+            cursor.execute(
+                f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_data_type}")
+        self.__close()
+
+    def rename_column(self, table_name: str, old_column_name: str, new_column_name: str):
+        """Renames a column in the specified table.
+
+        Args:
+            table_name (str): The name of the table to rename the column in.
+            old_column_name (str): The name of the column to rename.
+            new_column_name (str): The new name of the column.
+        """
+        self.__connect()
+        query = cursor.execute(
+            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{old_column_name}'")
+        column_exist = query.fetchone()
+        column_exist = column_exist[0] > 0
+        if column_exist:
+            cursor.execute(
+                f"ALTER TABLE {table_name} RENAME COLUMN {old_column_name} TO {new_column_name}")
+        self.__close()
+
+    def delete_column(self, table_name: str, column_name: str):
+        """Deletes a column from the specified table.
+
+        Args:
+            table_name (str): The name of the table to delete the column from.
+            column_name (str): The name of the column to delete.
+        """
+        self.__connect()
+        query = cursor.execute(
+            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column_name}'")
+        column_exist = query.fetchone()
+        column_exist = column_exist[0] > 0
+        if column_exist:
+            cursor.execute(
+                f"ALTER TABLE {table_name} DROP COLUMN {column_name}")
+        self.__close()
 
     def select_column(self, table_name: str, column_name: str) -> list[tuple]:
         """Returns a specified column of the specified table.
