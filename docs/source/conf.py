@@ -28,8 +28,8 @@ copyright = '2022, Spark Drago'
 author = 'Spark Drago'
 
 # The full version, including alpha/beta/rc tags
-release = '1.2.2'
-version = '1.2.2'
+release = '1.4'
+version = '1.4'
 
 
 # -- General configuration ---------------------------------------------------
