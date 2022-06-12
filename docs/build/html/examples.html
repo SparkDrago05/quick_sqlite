@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; QuickSqlite 1.2.2 documentation</title>
+  <title>Examples &mdash; QuickSqlite 1.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -29,7 +29,7 @@
             <a href="index.html" class="icon icon-home"> QuickSqlite
           </a>
               <div class="version">
-                1.2.2
+                1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -49,8 +49,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#checking-for-a-table">Checking for a table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deleting-a-table">Deleting a table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#inserting-data">Inserting data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#updating-table">Updating table</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#selecting-table">Selecting table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-data">Updating data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fetching-a-table">Fetching a table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-column">Adding a column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#renaming-a-column">Renaming a column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deleting-a-column">Deleting a column</a></li>
@@ -119,11 +119,12 @@
 </section>
 <section id="creating-a-table">
 <h2>Creating a table<a class="headerlink" href="#creating-a-table" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255)&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">quick_sqlite</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">Column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;INT&#39;</span><span class="p">),</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;VARCHAR(255)&#39;</span><span class="p">),</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;VARCHAR(255)&#39;</span><span class="p">),</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;VARCHAR(255)&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Here table name is ‘accounts’ and columns are ‘id’, ‘name’, ‘email’ and ‘password’.
-INT and VARCHAR are data types of columns.</p>
+The Column class is imported from quick_sqlite package and its first arguement is column name and the second arguement is column data type.</p>
 </section>
 <section id="renaming-a-table">
 <h2>Renaming a table<a class="headerlink" href="#renaming-a-table" title="Permalink to this headline"></a></h2>
@@ -156,31 +157,47 @@ Second line will change it back to ‘accounts’</p>
 </section>
 <section id="inserting-data">
 <h2>Inserting data<a class="headerlink" href="#inserting-data" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">insert_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;id, name, email, password&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email@example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;123456789&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">,</span>
+<span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;email@example.com&#39;</span><span class="p">,</span>
+<span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="s1">&#39;123456789&#39;</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will insert the data in the specified columns.</p>
-<p>Here the data (1, John Doe, <a class="reference external" href="mailto:email&#37;&#52;&#48;example&#46;com">email<span>&#64;</span>example<span>&#46;</span>com</a>, 123456789) will be inserted in the columns (id, name, email, password).</p>
+<p>Here the data is provided as a dictionary where the key is column name and the value is column data.</p>
 </section>
-<section id="updating-table">
-<h2>Updating table<a class="headerlink" href="#updating-table" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">update_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<section id="updating-data">
+<h2>Updating data<a class="headerlink" href="#updating-data" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Dan&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">update_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will update the value of name column to Dan where id is 1.</p>
 </section>
-<section id="selecting-table">
-<h2>Selecting table<a class="headerlink" href="#selecting-table" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">)</span>
+<section id="fetching-a-table">
+<h2>Fetching a table<a class="headerlink" href="#fetching-a-table" title="Permalink to this headline"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">fetch_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 <span class="go">[(1, &#39;Dan&#39;, &#39;email@example.com&#39;, &#39;123456789&#39;), (2, &#39;Joe&#39;, &#39;email2@example.com&#39;, &#39;930232213&#39;), (3, &#39;Smith&#39;, &#39;email3@example.com&#39;, &#39;232131231&#39;)]</span>
 </pre></div>
 </div>
 <p>This will return all the entries of a table in a list containing tuple of each row.</p>
+<p>If you want specific number of rows then use <strong>row_limit</strong> arguement.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">limited_table</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">fetch_table</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">limited_table</span><span class="p">)</span>
+<span class="go">[(1, &#39;Dan&#39;, &#39;email@example.com&#39;, &#39;123456789&#39;), (2, &#39;Joe&#39;, &#39;email2@example.com&#39;, &#39;930232213&#39;)]</span>
+</pre></div>
+</div>
 </section>
 <section id="adding-a-column">
 <h2>Adding a column<a class="headerlink" href="#adding-a-column" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;VARCHAR&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">quick_sqlite</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;VARCHAR(255)&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>This will create a new column ‘address’ with data type ‘VARCHAR’ in table ‘accounts’.</p>
@@ -201,7 +218,7 @@ Second line will change it back to ‘accounts’</p>
 </section>
 <section id="selecting-column">
 <h2>Selecting column<a class="headerlink" href="#selecting-column" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">column</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">column</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">fetch_column</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 <span class="go">[(&#39;Dan&#39;,), (&#39;Joe&#39;,), (&#39;Smith&#39;,)]</span>
 </pre></div>
@@ -220,28 +237,24 @@ Second line will change it back to ‘accounts’</p>
 </section>
 <section id="selecting-data">
 <h2>Selecting data<a class="headerlink" href="#selecting-data" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="go">(&#39;123456789&#39;,)</span>
 </pre></div>
 </div>
-<p>This will return password of field where the name is Dan.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;id, name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+<p>This will return password of field where the name is equal to Dan.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="go">(&#39;123456789&#39;,)</span>
+<span class="go">None</span>
 </pre></div>
 </div>
-<p>This will return password of field where the id is 1 and name is Dan.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">row</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select_row</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-<span class="go">(1, &#39;Dan&#39;, &#39;email@example.com&#39;, &#39;123456789&#39;)</span>
-</pre></div>
-</div>
-<p>* means ‘all’. This will return the row where name is Dan.</p>
+<p>This will return password of field where the id is greater than 1</p>
+<p>The supported consitions are: =, &lt;, &gt;, &lt;=, &gt;=, &lt;&gt;(not equal).</p>
+<p>The statement will look like: {filter_column_name} {condition} {filter_column_data}</p>
 </section>
 <section id="deleting-row">
 <h2>Deleting row<a class="headerlink" href="#deleting-row" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">delete_row</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Dan&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span><span class="o">.</span><span class="n">delete_row</span><span class="p">(</span><span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will delete the row where name is Dan.</p>
