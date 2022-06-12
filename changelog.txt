@@ -1,8 +1,25 @@
-[1.4]
+[1.5]
 This code was written and tested on Python 3.10.4
 
 # Changes
+
+- Now create_table() function will take table_name:str and columns:list[Column] arguement. You can create Column using quick_sqlite.Column() class
+- Now add_column() takes arguement column:Column
+- Renamed insert_table() to insert_data() and data will be provided as dictionary where key is column_name and value is data.
+- Renamed update_table() to update_data() and data will be provided as dictionary
+- Renamed select_table() to fetch_table() and added optional arguement row_limit:int
+- Renamed select_column() to fetch_column()
+- Renamed select_data() to fetch_data() and added arguement condition:str
+- Renamed delete_data() to delete_row() and arguement data will be provided as string
+
+[1.4]
+This code was written and tested on Python 3.10.4
+
+# Removed
 - Removed alter_table() function
+
+# Changes
+
 - Now check_table_exists() function does not require column_name parameter
 
 # Added

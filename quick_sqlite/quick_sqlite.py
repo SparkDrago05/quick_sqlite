@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from cryptography.fernet import Fernet
+from .column import Column
 
 
 class QuickSqlite():
@@ -85,16 +86,18 @@ class QuickSqlite():
         with open(filename, "wb") as file:
             file.write(decrypted_data)
 
-    def create_table(self, table_name: str, column_name: str):
+    def create_table(self, table_name: str, columns: list[Column]):
         """Creates the table with specified name and column name(s).
 
         Args:
             table_name (str): The name of the table to create.
-            column_name (str): The column name(s) of the table.
+            columns (list[Column]): Column class using quick_sqlite.Column() class.
         """
+        create_table_query = 'CREATE TABLE IF NOT EXISTS {name} ({columns});'.format(
+            name=table_name, columns=', '.join(str(column) for column in columns))
+
         self.__connect()
-        cursor.execute(
-            f"CREATE TABLE IF NOT EXISTS {table_name} ({column_name})")
+        cursor.execute(create_table_query)
         self.__close()
 
     def rename_table(self, old_table_name: str, new_table_name: str):
@@ -141,78 +144,74 @@ class QuickSqlite():
         cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
         self.__close()
 
-    def insert_table(self, table_name: str, column_name: str, data: list[str]):
+    def insert_data(self, table_name: str, data: dict):
         """Inserts the data in the specified column of the specified table.
 
         Args:
             table_name (str): The name of the table in which data is to be inserted.
-            column_name (str): The name of the column in which data is to be inserted.
-            data (list[str]): The data to be inserted.
+            data (dict): The data dictionary with key as column_name and value as column_value i.e. data 
         """
-        data_count = len(data)
-        loop_count = 0
-        question_marks = ''
-        data_tuple = tuple(data)
-        for i in data:
-            loop_count += 1
-            question_marks += '?'
-            question_marks += ' '
-            if not loop_count == data_count:
-                question_marks += ','
+        insert_table_query = "INSERT INTO '{table_name}' ('{x}') VALUES ('{y}')".format(
+            table_name=table_name, x="', '".join(v for v in data.keys()), y="', '".join(v for v in data.values()))
 
         self.__connect()
-        cursor.execute(
-            f"INSERT INTO {table_name} ({column_name}) VALUES ({question_marks})", (data_tuple))
+        cursor.execute(insert_table_query)
         conn.commit()
         self.__close()
 
-    def update_table(self, table_name: str, column_name: str, new_data: str, filter_column_name: str, filter_column_data: str):
+    def update_data(self, table_name: str, data: dict, filter_column_name: str, filter_column_data: str):
         """Updates the data in the specified column of specified table.
 
         Args:
             table_name (str): The name of the table in which data is to be updated.
             column_name (str): The name of the column in which data is to be updated.
-            new_data (str): The data to be updated.
+            data (dict): The data dictionary with key as column_name and value as column_value i.e. data 
             filter_column_name (str): The name of a column to filter the row.
             filter_column_data (str): The data of a column to filter the row.
         """
+        update_query = "UPDATE {table_name} SET {values} WHERE {filter_column_name} = '{filter_column_data}'".\
+            format(table_name=table_name, values=', '.join([' = '.join(
+                [field_name, '?'])for field_name in data]), filter_column_name=filter_column_name, filter_column_data=filter_column_data)
+
         self.__connect()
-        cursor.execute(
-            f"UPDATE {table_name} SET {column_name} = ? WHERE {filter_column_name} = ?", (new_data, filter_column_data))
+        cursor.execute(update_query, tuple(data.values()))
         conn.commit()
         self.__close()
 
-    def select_table(self, table_name: str) -> list[tuple]:
+    def fetch_table(self, table_name: str, row_limit: int = None) -> list[tuple]:
         """Returns all data of the specified table.
 
         Args:
             table_name (str): The name of the table of which you want the data.
+            row_limit (int): The number of rows to fetch.
 
         Returns:
             list[tuple]: Returns the list containing data of each row in tuples.
         """
         self.__connect()
         cursor.execute(f"SELECT * FROM {table_name}")
-        result = cursor.fetchall()
+        if row_limit is None:
+            result = cursor.fetchall()
+        elif row_limit is not None:
+            result = cursor.fetchmany(row_limit)
         self.__close()
         return result
 
-    def add_column(self, table_name: str, column_name: str, column_data_type: str):
+    def add_column(self, table_name: str, column: Column):
         """Adds a column to the specified table.
 
         Args:
             table_name (str): The name of the table to add the column to.
-            column_name (str): The name of the column to add.
-            column_data_type (str): The data type of the column.
+            column (Column): The column to add. You should use quick_sqlite.Column() class.
         """
+        add_column_query = f"ALTER TABLE {table_name} ADD {str(column)}"
         self.__connect()
         query = cursor.execute(
-            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column_name}'")
+            f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column.name}'")
         column_exist = query.fetchone()
         column_exist = column_exist[0] > 0
         if not column_exist:
-            cursor.execute(
-                f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_data_type}")
+            cursor.execute(add_column_query)
         self.__close()
 
     def rename_column(self, table_name: str, old_column_name: str, new_column_name: str):
@@ -250,7 +249,7 @@ class QuickSqlite():
                 f"ALTER TABLE {table_name} DROP COLUMN {column_name}")
         self.__close()
 
-    def select_column(self, table_name: str, column_name: str) -> list[tuple]:
+    def fetch_column(self, table_name: str, column_name: str) -> list[tuple]:
         """Returns a specified column of the specified table.
 
         Args:
@@ -290,19 +289,22 @@ class QuickSqlite():
 
         self.__close()
 
-    def select_data(self, table_name: str, column_name: str, filter_column_name: str, filter_column_data: list[str]) -> tuple[str]:
+    def fetch_data(self, table_name: str, column_name: str, filter_column_name: str, filter_column_data: str, condition: str) -> tuple[str]:
         """Returns a specified data from a specified column.
 
         Args:
             table_name (str): The name of the table of which you want the data.
             column_name (str): The name of the column of which you want the data.
             filter_column_name (str): The name of the column you want to be filtered through.
-            filter_column_data (list[str]): The data of the column you want to be filtered through.
+            filter_column_data (str): The data of the column you want to be filtered through.
+            condition: Condition to search the data. Available are: =, <, >, <=, >=, <>(not equal).
+                this will look like: {filter_column_name} {condition} {filter_column_data}
 
         Returns:
             tuple[str]: Returns a tuple consisting of the data of the specified column as string.
         """
         self.__connect()
+        """
         filter_column_name_array = filter_column_name.split()
         edited_array = []
         for filter_column_name_value in filter_column_name_array:
@@ -310,23 +312,25 @@ class QuickSqlite():
 
         edited_string = ' and '.join(edited_array).replace(',', '')
         filter_data_tuple = tuple(filter_column_data)
+        """
 
+        #cursor.execute(f"SELECT {column_name} FROM {table_name} WHERE {edited_string}", (filter_data_tuple))
         cursor.execute(
-            f"SELECT {column_name} FROM {table_name} WHERE {edited_string}", (filter_data_tuple))
+            f"SELECT {column_name} FROM {table_name} WHERE {filter_column_name} {condition} {filter_column_data}")
         result = cursor.fetchone()
         self.__close()
         return result
 
-    def delete_data(self, table_name: str, column_name: str, data: list[str]):
+    def delete_row(self, table_name: str, column_name: str, data: str):
         """Deletes the specified row from the table.
 
         Args:
             table_name (str): The name of the table of which you want to delete the data.
             column_name (str): The name of the column of which you want to delete the data.
-            data (list[str]): The data of the row to be deleted.
+            data (str): The data of the row to be deleted.
         """
         self.__connect()
         cursor.execute(
-            f"DELETE FROM {table_name} WHERE {column_name} = ?", (data))
+            f"DELETE FROM {table_name} WHERE {column_name} = ?", (data,))
         conn.commit()
         self.__close()
