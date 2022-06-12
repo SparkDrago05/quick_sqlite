@@ -47,10 +47,11 @@ You can read more about Fernet |location_link|.
 Creating a table
 ----------------
 
->>> db.create_table('accounts', 'id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255)')
+>>> from quick_sqlite import Column
+>>> db.create_table('accounts', [Column('id', 'INT'), Column('name', 'VARCHAR(255)'), Column('email', 'VARCHAR(255)'), Column('password', 'VARCHAR(255)')])
 
 Here table name is 'accounts' and columns are 'id', 'name', 'email' and 'password'.
-INT and VARCHAR are data types of columns.
+The Column class is imported from quick_sqlite package and its first arguement is column name and the second arguement is column data type.
 
 Renaming a table
 ----------------
@@ -85,32 +86,52 @@ This will delete the table 'accounts' from our database.
 Inserting data
 --------------
 
->>> db.insert_table('accounts', 'id, name, email, password', [1, 'John Doe', 'email@example.com', '123456789'])
+.. code-block:: python
+
+    data = {
+    'id': 1,
+    'name': 'John Doe',
+    'email': 'email@example.com',
+    'password': '123456789'
+    }
+    db.insert_data('accounts', data)
 
 This will insert the data in the specified columns.
 
-Here the data (1, John Doe, email@example.com, 123456789) will be inserted in the columns (id, name, email, password).
+Here the data is provided as a dictionary where the key is column name and the value is column data.
 
-Updating table
+Updating data
 --------------
 
->>> db.update_table('accounts', 'name', 'Dan', 'id', 1)
+.. code-block:: python
+
+    data = {
+    'name': 'Dan',
+    }
+    db.update_data('accounts', data, 'id', 1)
 
 This will update the value of name column to Dan where id is 1. 
 
-Selecting table
----------------
+Fetching a table
+----------------
 
->>> table = db.select_table('accounts')
+>>> table = db.fetch_table('accounts')
 >>> print(table)
 [(1, 'Dan', 'email@example.com', '123456789'), (2, 'Joe', 'email2@example.com', '930232213'), (3, 'Smith', 'email3@example.com', '232131231')]
 
 This will return all the entries of a table in a list containing tuple of each row.
 
+If you want specific number of rows then use **row_limit** arguement.
+
+>>> limited_table = db.fetch_table('accounts', 2)
+>>> print(limited_table)
+[(1, 'Dan', 'email@example.com', '123456789'), (2, 'Joe', 'email2@example.com', '930232213')]
+
 Adding a column
 ---------------
 
->>> db.add_column('accounts', 'address', 'VARCHAR')
+>>> from quick_sqlite import Column
+>>> db.add_column('accounts', Column('address', 'VARCHAR(255)'))
 
 This will create a new column 'address' with data type 'VARCHAR' in table 'accounts'.
 
@@ -131,7 +152,7 @@ This will delete column 'home address' in table 'accounts'.
 Selecting column
 ----------------
 
->>> column = db.select_column('accounts', 'name')
+>>> column = db.fetch_column('accounts', 'name')
 >>> print(column)
 [('Dan',), ('Joe',), ('Smith',)]
 
@@ -150,27 +171,25 @@ This will check if a column exists in the table.
 Selecting data
 --------------
 
->>> data = db.select_data('accounts', 'password', 'name', ['Dan'])
+>>> data = db.fetch_data('accounts', 'password', 'name', 'Dan', '=')
 >>> print(data)
 ('123456789',)
 
-This will return password of field where the name is Dan.
+This will return password of field where the name is equal to Dan.
 
->>> data = db.select_data('accounts', 'password', 'id, name', [1, 'Dan'])
+>>> data = db.fetch_data('accounts', 'password', 'id', '1', '>')
 >>> print(data)
-('123456789',)
+None
 
-This will return password of field where the id is 1 and name is Dan.
+This will return password of field where the id is greater than 1 
 
->>> row = db.select_row('accounts', '*', 'name', ['Dan'])
->>> print(row)
-(1, 'Dan', 'email@example.com', '123456789')
+The supported consitions are: =, <, >, <=, >=, <>(not equal).
 
-\* means 'all'. This will return the row where name is Dan.
+The statement will look like: {filter_column_name} {condition} {filter_column_data}
 
 Deleting row
 ------------
 
->>> db.delete_row('accounts', 'name', ['Dan'])
+>>> db.delete_row('accounts', 'name', 'Dan')
 
 This will delete the row where name is Dan.
